@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Chat{% endblock %}
+
+{% block content %}
+
+<h1>You can chat with {{ nickname }}</h1>
+<ul>
+    {% for message in messages %}
+        <h3><li>{{ message.sender }} <br> {{ message.content }} <hr></li></h3>
+    {% endfor %}
+</ul>
+
+{% endblock %}
