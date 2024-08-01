@@ -10,7 +10,7 @@ from chat_app.chat_logic import check_if_user_exists
 def start_chat(request):
     if request.method == 'POST':
         nickname = request.POST.get('recipient_name')
-        if nickname and check_if_user_exists(nickname):
+        if nickname and check_if_user_exists(nickname) and str(request.user) != nickname:
             return redirect(reverse('chat', args=[nickname]))
     return redirect('home')
 

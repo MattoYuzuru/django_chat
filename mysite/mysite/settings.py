@@ -15,6 +15,8 @@ DEBUG = os.getenv('DEBUG')
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,7 +56,15 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'mysite.wsgi.application'
+# WSGI_APPLICATION = 'mysite.wsgi.application'
+ASGI_APPLICATION = "mysite.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
+
 
 DATABASES = {
     'default': {
