@@ -11,3 +11,11 @@ class Message(models.Model):
 
     def __str__(self):
         return f'{self.sender} to {self.recipient}: "{self.content[:10]}..."'
+
+
+class ChatRoom(models.Model):
+    users = models.ManyToManyField(CustomUser)
+    room_id = models.CharField(max_length=300, unique=True)
+
+    def __str__(self):
+        return self.room_id

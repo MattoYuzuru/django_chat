@@ -20,3 +20,10 @@ def save_message_to_db(sender: str, recipient: str, message: str):
     message_obj = Message(sender=sender_cu, recipient=recipient_cu, content=message)
 
     message_obj.save()
+
+
+def generate_room_id(username1: str, username2: str):
+    room_id = 0
+    for char in username1 + username2:
+        room_id += ord(char)
+    return room_id + len(username1 + username2)
