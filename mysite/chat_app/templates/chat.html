@@ -19,6 +19,8 @@
 <input id="chat-message-input" type="text" size="100">
 <br><br>
 <input id="chat-message-submit" type="button" value="Send">
+
+<input id="chat-exit" type="button" value="Exit" onclick="window.location.href='{% url 'home' %}'">
 {{ room_id|json_script:"room-name" }}
 <script>
     const roomName = JSON.parse(document.getElementById('room-name').textContent);
@@ -31,6 +33,10 @@
         + '/'
     );
 
+    function scrollToBottom() {
+        window.scrollBy(0, 500);
+    }
+
     chatSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
         const message = data.message;
@@ -40,6 +46,7 @@
         const newMessage = document.createElement('li');
         newMessage.innerHTML = `<strong>${sender}:</strong> <br> ${message} <hr>`;
         chatMessages.appendChild(newMessage);
+        scrollToBottom();
     };
 
     chatSocket.onclose = function(e) {

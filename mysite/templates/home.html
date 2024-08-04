@@ -4,22 +4,37 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-    <form method="POST" action="{% url 'logout' %}">
-        {% csrf_token %}
-        Hi {{ user.username }}!
-        <button type="submit">Logout</button>
-    </form>
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    Hi {{ user.username }}!
+    <button type="submit">Logout</button>
+</form>
 
-    <form method="POST" action="{% url 'get_nickname' %}">
-        {% csrf_token %}
-        <label>Your friend's nickname: </label>
-        <input name="recipient_name">
-        <button type="submit">Enter chat</button>
-    </form>
+<form method="POST" action="{% url 'home' %}">
+    {% csrf_token %}
+    <label>Your friend's nickname: </label>
+    <input name="recipient_name">
+    <button type="submit">Enter chat</button>
+
+    {% if all_chats %}
+    <ul>
+        {% for chat_name in all_chats %}
+        <h3>
+            <li>
+                <h4><a href="{% url 'chat' chat_name %}">{{ chat_name }}</a></h4>
+            </li>
+        </h3>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <h4>You don't have any chats yet</h4>
+    {% endif %}
+</form>
+
 
 {% else %}
-    <p>You are not logged in</p>
-    <a href="{% url 'login' %}">Log In</a> |
-    <a href="{% url 'signup' %}">Sign Up</a>
+<p>You are not logged in</p>
+<a href="{% url 'login' %}">Log In</a> |
+<a href="{% url 'signup' %}">Sign Up</a>
 {% endif %}
 {% endblock %}
