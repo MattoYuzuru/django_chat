@@ -1,17 +1,27 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Chat{% endblock %}
 
 {% block content %}
 
+<link rel="stylesheet" href="{% static 'chat_style.css' %}">
+
 <h1>You can chat with {{ nickname }}</h1>
 <ul id="chat-messages">
     {% for message in messages %}
-    <h3>
-        <li><strong>{{ message.sender }}:</strong> <br> {{ message.content }}
-            <hr>
-        </li>
-    </h3>
+    {% if message.sender == request.user %}
+    <li class="my-message">
+        <strong>{{ message.sender }}:</strong> <br> {{ message.content }}
+        <hr>
+    </li>
+    {% elif message.recipient == request.user %}
+    <li class="friend-message">
+        <strong>{{ message.sender }}:</strong> <br> {{ message.content }}
+        <hr>
+    </li>
+    {% endif %}
+
     {% endfor %}
 </ul>
 
@@ -34,7 +44,8 @@
     );
 
     function scrollToBottom() {
-        window.scrollBy(0, 500);
+        const chatMessages = document.getElementById('chat-messages');
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
     chatSocket.onmessage = function(e) {
@@ -44,6 +55,11 @@
 
         const chatMessages = document.getElementById('chat-messages');
         const newMessage = document.createElement('li');
+        if (sender === "{{request.user}}") {
+            newMessage.classList.add('my-message');
+        } else {
+            newMessage.classList.add('friend-message');
+        }
         newMessage.innerHTML = `<strong>${sender}:</strong> <br> ${message} <hr>`;
         chatMessages.appendChild(newMessage);
         scrollToBottom();
@@ -72,6 +88,8 @@
         }));
         messageInputDom.value = '';
     };
+
+    window.onload = scrollToBottom;
 </script>
 
 {% endblock %}
