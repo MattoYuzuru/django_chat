@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<h2>Edit profile</h2>
+<form method="POST">
+
+    {% csrf_token %}
+    
+    <p>Change your name</p>
+    <div class="name">
+        <label>Name: </label>
+        <input name="formName">
+    </div>
+    <div class="surname">
+        <label>Surname: </label>
+        <input name="formSurname">
+    </div>
+    <div class="family_name">
+        <label>Family name: </label>
+        <input name="formFamilyname">
+    </div>
+    <p>Change bio, email and other stuff</p>
+    <div class="bio">
+        <label>Bio: </label>
+        <input name="fromBio">
+    </div>
+    <div class="email">
+        <label>E-mail: </label>
+        <input name="fromEmail">
+    </div>
+
+    <button type='submit'>Save changes</button>
+
+</form>
+{% endblock %}

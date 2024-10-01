@@ -18,7 +18,7 @@ def save_message_to_db(sender: str, recipient: str, message: str):
     recipient_cu = CustomUser.objects.get(username=recipient)
 
     message_obj = Message(sender=sender_cu, recipient=recipient_cu, content=message)
-    if message_obj.content == Message.objects.last().content:
+    if Message.objects.last() is not None and message_obj.content == Message.objects.last().content:
         return None
 
     message_obj.save()

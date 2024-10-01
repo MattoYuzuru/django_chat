@@ -1,14 +1,16 @@
+"""Module providing chat app logic"""
+
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+from user_app.models import CustomUser
+from chat_app.chat_logic import check_if_user_exists
 from .chat_logic import generate_room_id
 from .models import Message
-from user_app.models import CustomUser
-
-from chat_app.chat_logic import check_if_user_exists
 
 
 def home_view(request):
+    """Function that renders home.html"""
     curr_user = request.user.id
     users = CustomUser.objects.exclude(id=curr_user)
     chats = []
@@ -31,6 +33,7 @@ def home_view(request):
 
 
 def chat_view(request, nickname):
+    """Function that generates room id, renders chat.html"""
     sender = request.user
     recipient = CustomUser.objects.get(username=nickname)
 
@@ -48,3 +51,30 @@ def chat_view(request, nickname):
     }
 
     return render(request, 'chat.html', context)
+
+
+def profile_view(request):
+    context = {
+        
+    }
+
+    user = CustomUser.objects.get(pk=request.user.id)
+
+    if request.method == 'POST':
+        data = request.POST
+        
+        forms = [  # Here we have a list of fields that user wants to change
+            data.get('formName', False),
+            data.get('formSurname', False),
+            data.get('formFamilyname', False),
+            data.get('formBio', False),
+            data.get('formEmail', False)
+        ]
+
+        print('\n', data)
+        print(forms)
+        
+        # user.first_name = forms[0] 
+
+    return render(request, 'profile.html', context)
+

@@ -10,6 +10,11 @@
     <button type="submit">Logout</button>
 </form>
 
+<form method="POST" action="{% url 'profile' %}">
+    {% csrf_token %}
+    <button type="submit">My profile</button>
+</form>
+
 <form method="POST" action="{% url 'home' %}">
     {% csrf_token %}
     <label>Your friend's nickname: </label>
